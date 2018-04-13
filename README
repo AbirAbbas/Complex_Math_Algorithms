@@ -1,0 +1,26 @@
+/*
+* 0931679
+* Abir Abbas
+* CIS 3490- A2
+* 02-12-2017
+* README.txt
+*/
+
+===============================
+ASSUMPTIONS OR LIMITATIONS
+===============================
+
+- Q1 must contain exactly 50,000 Lines
+- Q2 must contain exactly 30,000 Lines
+- File must be formatted accordingly
+	- Q1 every line must have exactly 5 values
+	- Q2 every line must have exactly 1 pair of coordinates
+- values may not exceed double size!
+- must be integers/doubles, no characters
+
+===============================
+HOW TO USE
+===============================
+make : recompiles everything
+make run : compiles and runs the code
+make clean : cleans everything

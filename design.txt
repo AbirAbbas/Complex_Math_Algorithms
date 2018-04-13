@@ -1,0 +1,237 @@
+1.1:
+
+The property of Inversions are that any given value x1 and x2, if x1 > x2 then there exists an Inversion.
+
+A Bruteforce algorithm : 
+
+Since we know for sure there are 50,000 values, and we know the property! a simple algorithm to compute
+all inversions would be the following;
+
+for (i = 50,000 times) 
+	for (n = i + 1 to 50000 times)
+		compare values array[i] and array[n]
+			if array[i] is less than array[n]
+				increment counter
+				
+This will run n * n times, therefore will have a big o of O(n).
+
+execution time : 5.99s
+
+
+
+
+		
+1.2:
+The property stated in the previous section will be reused here!
+
+A Divide and Conquer algorithm : 
+
+The recursive function : 
+	divideFunction(Array)
+		return if Array is Null
+
+		else divide in half and create Left and Right
+			call divideFunction(Left)
+			call divideFunction(Right)
+			merge left and right
+			
+The merging function :
+
+	Compare the values corresponding to i, j and k where each represent a position
+	i = initial index of first array
+	j = initial index of second array
+	k = initial index of combined array
+	
+	//This is the main part that we really need
+	if array[k] < [j]
+		increment counter
+		make array[i] equal to array[k] for sorting purposes
+	else 
+		array[i] = array[j] for sorting purposes
+		
+	the rest of the merge function is to add in the rest of the arrays into the combined array
+	
+	for (all remaining elements to be put into the array)
+		put into the array
+		
+	exit
+	
+Masters theorem : T(n) = a * T(n/b) + f(n)
+
+if f(n) = O(n^d) & d >= 0
+
+then T(n) {
+	O(n^d) if a < b ^d
+	O(n^dlogn) if a = b ^ d
+	O(n^logab) if a > b ^ d
+}
+
+Lets solve it for our merge-sort/inverse counter function
+a = 2 (we solve both left and right)
+b = 2 (we divide it into 2 arrays)
+d = 1 (our merge is O(n), and d needs to be 1 for n^d to equal n
+
+T(n) = 2T(n/2) + n
+
+Now lets solve : 
+
+a = b ^ d
+
+2 = 2 ^ 1
+
+2 = 2
+
+therefore it is in O(n^1logn)
+simplified : O(nlogn)
+
+Execution Time : 0.009295s
+
+
+
+
+
+
+
+
+1.3
+
+difference = 5.99s - 0.009295s
+
+difference = 5.98705s difference (Huge difference going from O(n^2) to O(nlogn))
+
+2.1:
+
+Brute force :
+
+Start at one point (pair 0 in the array of 30,000 pairs)
+
+loop (i = 30,000 times)
+	loop (j = 30,000 times)
+		loop(k = 30,000 times)
+			check the slope
+			if slope is positive and the vertice is to the right of original point
+				break
+			if slope is negative and vertice is to the left of original point
+				break
+			if slope is equal and vertice is on the convex hull line or inside it
+				break
+			otherwise check if any point is outside of convex hull
+			if yes
+				break
+		
+			check if it has looped 30,000 times and hasn't breaked at all 
+				increment inverseCounter because it means that it passed all our flags
+				
+Execution Time : 53.216707s
+		
+		
+		
+		
+		
+		
+			
+2.2:
+Masters theorem : T(n) = a * T(n/b) + f(n)
+
+if f(n) = O(n^d) & d >= 0
+
+then T(n) {
+	O(n^d) if a < b ^d
+	O(n^dlogn) if a = b ^ d
+	O(n^logab) if a > b ^ d
+}
+
+Lets solve it for our merge-sort/inverse counter function
+a = 2 (we solve both left and right)
+b = 2 (we divide it into 2 arrays)
+d = 1 (our merge is O(n), and d needs to be 1 for n^d to equal n
+
+Now lets solve : 
+
+a = b ^ d
+
+2 = 2 ^ 1
+
+2 = 2
+
+therefore it is in O(n^1logn)
+simplified : O(nlogn)
+Divide and Conquer:
+
+Find the leftmost coordinate
+Find the rightmost coordinate
+
+loop(30,000)
+	create 2 arrays
+	if array belongs to the left side of the line formed by leftmost + rightmost
+		insert to leftArray
+	if array belongs tp the right side of line formed by leftmost + rightmost
+		insert to rightArray
+		
+recursively call quickSort function with left array
+recursively call quickSort function with right array
+
+recursive function : 
+
+if reference list is NULL exit
+
+use ur current leftmost or rightmost point as reference (will change as it gets called recursively over and over again)
+
+loop through list and find the coordinate farthest away from reference point
+	it can be assumed that farthest point is part of the convex hull due to certain properties
+	insert farthest point into convexHulls list
+
+loop through the whole reference list
+	use reference point to check if more lefts/right coordinates exist
+		if they exist insert to the corresponding left/right list
+	
+recursively call itself with (all left coordinates (can be NULL))
+recursively call itself with (all right coordinates (can be NULL))
+
+General explanation : Basically this algorithm keeps finding extreme points that fall under a property of convex hulls and are 
+inserted into the list of convex hulls, and once those points arethey are recursively used again to find the next point!, 
+once no more references are found to the left or right of the reference point, it returns.
+
+Masters theorem : T(n) = a * T(n/b) + f(n)
+
+if f(n) = O(n^d) & d >= 0
+
+then T(n) {
+	O(n^d) if a < b ^d
+	O(n^dlogn) if a = b ^ d
+	O(n^loga^b) if a > b ^ d
+}
+
+Lets solve it for our merge-sort/inverse counter function
+a = 2 (we solve both left and right)
+b = 2 (we divide it into 2 arrays)
+d = 0 (because we can use n^loga^b, n^log2^2 which just returns n, so n^d where d = 1)
+
+T(n) = 2T(n/2) + n^log2^2
+T(n) = 2T(n/2) + n
+
+Now lets solve : 
+
+a = b ^ d
+
+2 = 2 ^ 1
+
+2 = 2
+
+therefore it is in O(n^1logn)
+simplified : O(nlogn)
+
+Execution Time : 1.122416s
+
+
+
+
+
+
+2.3:
+
+difference = 53.216707s - 1.122416s
+
+difference = 52.094291s (Very big difference because going from O(n^3) to O(nlogn))
+
+
